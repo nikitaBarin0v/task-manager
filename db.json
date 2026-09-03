@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "testUser",
+      "password": "12345678",
+      "email": "testUser@mail.com"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "taskName": "Тестовая задача",
+      "column": "new",
+      "userId": 1,
+      "description": "Задача является тестовой"
+    }
+  ]
+  
+}
