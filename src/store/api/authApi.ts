@@ -22,4 +22,4 @@ const authApi = createApi({
 })
 
 export default authApi;
-export const { useLoginQuery, useRegisterMutation } = authApi;
+export const { useLoginQuery, useRegisterMutation, useLazyLoginQuery } = authApi;
