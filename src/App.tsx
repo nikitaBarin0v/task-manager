@@ -1,8 +1,23 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Landing } from "./pages/Landing"
+import { Login } from "./pages/Login"
+import { Register } from "./pages/Register"
+import { Dashboard } from "./pages/Dashboard"
+import { ProtectedRoute } from "./components/ProtectedRoute"
 
 function App() {
 
   return (
-    <div> Hello, Task manager</div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
