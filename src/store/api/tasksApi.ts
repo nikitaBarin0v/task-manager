@@ -9,29 +9,34 @@ const taskApi = createApi({
       query: (userId) => ({
         url: '/tasks',
         params: { userId }
-      })
+      }),
+      providesTags: ['Tasks']
     }),
     createTask: builder.mutation<Task, { taskName: string, column: 'new' | 'in-progress' | 'done', description?: string }>({
       query: (arg) => ({
         url: '/tasks',
         method: 'POST',
         body: arg
-      })
+      }),
+      invalidatesTags: ['Tasks']
     }),
     deleteTask: builder.mutation<Task, number> ({
       query: (id) => ({
         url: `/tasks/${id}`,
         method: 'DELETE'
-      })
+      }),
+      invalidatesTags: ['Tasks']
     }),
     updateTask: builder.mutation<Task, { id: number, column: 'new' | 'in-progress' | 'done' }>({
       query: ({id, column}) => ({
         url: `/tasks/${id}`,
         method: 'PATCH',
         body: { column }
-      })
+      }),
+      invalidatesTags: ['Tasks']
     })
-  })
+  }),
+  tagTypes: ['Tasks']
 })
 
 export default taskApi;
