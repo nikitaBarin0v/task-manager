@@ -1,10 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../store/store";
-import { useDeleteTaskMutation, useGetTasksQuery } from "../store/api/tasksApi";
+import { useDeleteTaskMutation, useGetTasksQuery, useUpdateTaskMutation } from "../store/api/tasksApi";
 import { useState } from "react";
 import { TaskForm } from "../components/TaskForm";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../store/slices/authSlice";
+import { DroppableColumn } from "../components/DroppableColumn";
+import { DraggableTask } from "../components/DraggableTask";
+import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 
 export function Dashboard() {
 
@@ -19,6 +22,7 @@ export function Dashboard() {
   const [activeColumn, setActiveColumn] = useState<'new' | 'in-progress' | 'done' | null>(null)
 
   const [deleteTask] = useDeleteTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +32,16 @@ export function Dashboard() {
     navigate('/login');
   }
 
-  console.log(user)
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over) return
+
+    updateTask({
+      id: Number(active.id),
+      column: over.id as 'new' | 'in-progress' | 'done'
+    })
+  }
 
   return (
     <>
@@ -37,41 +50,38 @@ export function Dashboard() {
         <div>{user?.name}</div>
         <button onClick={handleLogout}>Выйти</button>
       </div>
-      <div>
-        <div>
-          <h3>Новые</h3>
+      <DndContext onDragEnd={handleDragEnd}>
+        <DroppableColumn id='new' title='Новый'>
           <ul>
             {newTasks?.map(task => (
-              <li key={task.id}>{task.taskName} <button onClick={() => deleteTask(task.id)}>Удалить</button></li>
+              <DraggableTask key={task.id} task={task} onDelete={() => deleteTask(task.id)}></DraggableTask>
             ))}
           </ul>
           <button onClick={() => setActiveColumn('new')}>Добавить задачу</button>
-        </div>
+        </DroppableColumn>
 
-        <div>
-          <h3>В работе</h3>
+        <DroppableColumn id='in-progress' title='В процессе'>
           <ul>
             {inProgressTasks?.map(task => (
-              <li key={task.id}>{task.taskName} <button onClick={() => deleteTask(task.id)}>Удалить</button></li>
+              <DraggableTask key={task.id} task={task} onDelete={() => deleteTask(task.id)}></DraggableTask>
             ))}
           </ul>
           <button onClick={() => setActiveColumn('in-progress')}>Добавить задачу</button>
-        </div>
+        </DroppableColumn>
 
-        <div>
-          <h3>Выполненые</h3>
+        <DroppableColumn id='done' title='Выполнено'>
           <ul>
             {doneTasks?.map(task => (
-              <li key={task.id}>{task.taskName} <button onClick={() => deleteTask(task.id)}>Удалить</button></li>
+              <DraggableTask key={task.id} task={task} onDelete={() => deleteTask(task.id)}></DraggableTask>
             ))}
           </ul>
           <button onClick={() => setActiveColumn('done')}>Добавить задачу</button>
-        </div>
+        </DroppableColumn>
 
         {activeColumn && (
           <TaskForm column={activeColumn} onClose={() => setActiveColumn(null)} />
         )}
-      </div>
+      </DndContext>
     </>
   )
 }

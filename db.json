@@ -20,6 +20,13 @@
       "column": "new",
       "userId": 1,
       "description": "Задача является тестовой"
+    },
+    {
+      "taskName": "new task",
+      "description": "123",
+      "column": "new",
+      "userId": 2,
+      "id": 2
     }
   ]
 }
