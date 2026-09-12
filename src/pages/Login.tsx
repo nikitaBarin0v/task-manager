@@ -48,15 +48,23 @@ export function Login() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register('email')} type='email' placeholder='Введите email' />
-      {errors.email && <span>{errors.email.message}</span>}
+    <div className="min-b-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white rounded p-8 w-96 shadow">
+        <h2 className="text-2xl font-bold mb-6">Логин</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register('email')} type='email' placeholder='Введите email' className="w-full border rounded p-2 mb-1 outline-none focus:border-blue-500" />
+          {errors.email && <span>{errors.email.message}</span>}
 
-      <input {...register('password')} type='password' placeholder='Введите пароль' />
-      {errors.password && <span>{errors.password.message}</span>}
+          <input {...register('password')} type='password' placeholder='Введите пароль' className="w-full border rounded p-2 mb-1 outline-none focus:border-blue-500" />
+          {errors.password && <span>{errors.password.message}</span>}
 
-      <button type='submit' disabled={isSubmitting}>{isSubmitting ? 'Вход...' : 'Войти'}</button>
-      <Link to='/register'>Регистрация</Link>
-    </form>
+          <button type='submit' disabled={isSubmitting} className="w-full bg-blue-500 text-white py-2 rounded cursor-pointer hover:bg-blue-600 mt-2">{isSubmitting ? 'Вход...' : 'Войти'}</button>
+          <Link to='/register' className="block text-center mt-2 text-blue-500 hover:underline">Регистрация</Link>
+          <Link to='/' className="block text-center mt-2 text-gray-500 hover:underline">
+            На главную
+          </Link>
+        </form>
+      </div>
+    </div>
   )
 }

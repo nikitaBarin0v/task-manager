@@ -23,10 +23,17 @@
     },
     {
       "taskName": "new task",
-      "description": "123",
+      "description": "Просто описание",
       "column": "new",
       "userId": 2,
       "id": 2
+    },
+    {
+      "taskName": "new task 2",
+      "description": "Тест описания",
+      "column": "in-progress",
+      "userId": 2,
+      "id": 3
     }
   ]
 }
